@@ -18,7 +18,8 @@ make_w <- function(mu, Sigma, mm, base = NULL) {
   if (length(mm) == 1) mm <- rep(mm, N)
   
   Y <- foreach(i = 1:N, .combine = rbind) %do% {
-    MASS::mvrnorm(n = 1, mu = mu[i, ], Sigma)
+    # Use this to match divnetredux when making the test oracle
+    mgcv::rmvn(n = 1, mu = mu[i, ], V = Sigma)
   }
   
   compositions <- to_composition_matrix(Y, base = base) 
